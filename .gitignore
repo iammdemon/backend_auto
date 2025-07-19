@@ -1,0 +1,14 @@
+# Credentials
+credentials.json
+token.json
+
+# Environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Temporary files
+temp/
+output/
