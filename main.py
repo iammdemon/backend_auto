@@ -7,8 +7,8 @@ from fastapi import FastAPI, File, UploadFile, Form, WebSocket, WebSocketDisconn
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.concurrency import run_in_threadpool
-import backend.pdf_generator as pdf_generator
-import backend.google_drive as google_drive
+import pdf_generator
+# import google_drive
 import zipfile
 import tempfile
 
@@ -93,13 +93,13 @@ async def upload_zip(file: UploadFile = File(...)):
     asyncio.create_task(process_and_generate_pdf(temp_file_path, is_zip=True))
     return {"message": "Processing started. See status updates via WebSocket."}
 
-@app.post("/process-drive/")
-async def process_drive(drive_link: str = Form(...)):
-    # This part is still blocking, but let's fix the core logic first.
-    # A full solution would run this in a background task as well.
-    downloaded_folder_path = await run_in_threadpool(google_drive.download_folder, drive_link)
-    asyncio.create_task(process_and_generate_pdf(downloaded_folder_path, is_zip=False))
-    return {"message": "Processing started. See status updates via WebSocket."}
+# @app.post("/process-drive/")
+# async def process_drive(drive_link: str = Form(...)):
+    # # This part is still blocking, but let's fix the core logic first.
+    # # A full solution would run this in a background task as well.
+    # downloaded_folder_path = await run_in_threadpool(google_drive.download_folder, drive_link)
+    # asyncio.create_task(process_and_generate_pdf(downloaded_folder_path, is_zip=False))
+    # return {"message": "Processing started. See status updates via WebSocket."}
 
 
 @app.websocket("/ws")
